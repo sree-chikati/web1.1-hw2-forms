@@ -48,7 +48,7 @@ def show_froyo_results():
     return render_template("froyo_results.html", **context)
 
 
-#FAVORITE THINGS
+#PART 1: FAVORITE THINGS
 @app.route('/favorites')
 def favorites():
     """Shows the user a form to choose their favorite color, animal, and city."""
@@ -57,7 +57,7 @@ def favorites():
         What is your favorite color? <br/>
         <input type="text" name="color"><br/>
 
-        What is your favorite animal? <br/>
+        What is your favorite animal? <br/>                            
         <input type="text" name="animal"><br/>
 
         What is your favorite city? <br/>
@@ -69,7 +69,7 @@ def favorites():
 
 @app.route('/favorites_results')
 def favorites_results():
-    """Shows the user a nice message using their form results."""
+    """Shows the user a nice message using their form resu                          lts."""
     users_fav_color = request.args.get('color')
     users_fav_animal = request.args.get('animal')
     users_fav_city = request.args.get('city')
@@ -97,41 +97,56 @@ def message_results():
     return f'Here\'s your secret message! {secret_message}'
 
 
-#PART 1: CALCULATOR
+#CALCULATOR
 @app.route('/calculator')
 def calculator():
     """Shows the user a form to enter 2 numbers and an operation."""
-    return """
-    <form action="/calculator_results" method="GET">
-        Please enter 2 numbers and select an operator.<br/><br/>
-        <input type="number" name="operand1">
-        <select name="operation">
-            <option value="add">+</option>
-            <option value="subtract">-</option>
-            <option value="multiply">*</option>
-            <option value="divide">/</option>
-        </select>
-        <input type="number" name="operand2">
-        <input type="submit" value="Submit!">
-    </form>
-    """
+     #-----------------PART 1: CALCULATOR----------------#
+    #return """
+    #<form action="/calculator_results" method="GET">
+    #    Please enter 2 numbers and select an operator.<br/><br/>
+    #    <input type="number" name="operand1">
+    #    <select name="operation">
+    #        <option value="add">+</option>
+    #        <option value="subtract">-</option>
+    #   <option value="multiply">*</option>
+    #        <option value="divide">/</option>
+    #    </select>
+    #    <input type="number" name="operand2">
+    #    <input type="submit" value="Submit!">
+    #</form>
+    #"""
+
+    #-----------------PART 2: CALCULATOR----------------#
+    return render_template("calculator_form.html")
 
 @app.route('/calculator_results')
 def calculator_results():
     """Shows the user the result of their calculation."""
-    user_operand1 = request.args.get('operand1')
-    user_operation = request.args.get('operation')
-    user_operand2 = request.args.get('operand2')
-
+    user_operand1 = request.args.get("operand1")
+    user_operand2 = request.args.get("operand2")
+    user_operation = request.args.get("operation")
+    
     if user_operation == "add":
         result = int(user_operand1) + int(user_operand2)
+        chosen_operation = "add"
     elif user_operation == "subtract":
         result = int(user_operand1) - int(user_operand2)
+        chosen_operation = "subtract"
     elif user_operation == "multiply":
         result = int(user_operand1) * int(user_operand2)
+        chosen_operation = "multiply"
     elif user_operation == "divide":
         result = int(user_operand1) / int(user_operand2)
-    return f'You chose to add {user_operand1} and {user_operand2}. Your result is: {result}'
+        chosen_operation = "divide"
+    
+    context = {
+        "num1" : user_operand1,
+        "num2" : user_operand2,
+        "result" : result,
+        "operation" : chosen_operation
+    }
+    return render_template("calculator_results.html", **context)
 
 
 # List of compliments to be used in the `compliments_results` route (feel free 
