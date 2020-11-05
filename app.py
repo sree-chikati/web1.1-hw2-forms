@@ -82,8 +82,10 @@ def message_results():
     """Shows the user their message, with the letters in sorted order."""
     users_message = request.form.get('message')
     secret_message = sort_letters(users_message)
-    return f'Here\'s your secret message!{secret_message}'
+    return f'Here\'s your secret message! {secret_message}'
 
+
+#PART 1: CALCULATOR
 @app.route('/calculator')
 def calculator():
     """Shows the user a form to enter 2 numbers and an operation."""
@@ -105,7 +107,19 @@ def calculator():
 @app.route('/calculator_results')
 def calculator_results():
     """Shows the user the result of their calculation."""
-    pass
+    user_operand1 = request.args.get('operand1')
+    user_operation = request.args.get('operation')
+    user_operand2 = request.args.get('operand2')
+
+    if user_operation == "add":
+        result = int(user_operand1) + int(user_operand2)
+    elif user_operation == "subtract":
+        result = int(user_operand1) - int(user_operand2)
+    elif user_operation == "multiply":
+        result = int(user_operand1) * int(user_operand2)
+    elif user_operation == "divide":
+        result = int(user_operand1) / int(user_operand2)
+    return f'You chose to add {user_operand1} and {user_operand2}. Your result is: {result}'
 
 
 # List of compliments to be used in the `compliments_results` route (feel free 
