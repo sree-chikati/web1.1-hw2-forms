@@ -14,6 +14,8 @@ def homepage():
     """A homepage with handy links for your convenience."""
     return render_template('home.html')
 
+
+#PART 1: FRO-YO ORDERING
 @app.route('/froyo')
 def choose_froyo():
     """Shows a form to collect the user's Fro-Yo order."""
@@ -33,6 +35,8 @@ def show_froyo_results():
     users_froyo_topping = request.args.get('toppings')
     return f'You ordered {users_froyo_flavor} flavored Fro-Yo with toppings {users_froyo_topping}!'
 
+
+#PART 1: FAVORITE THINGS
 @app.route('/favorites')
 def favorites():
     """Shows the user a form to choose their favorite color, animal, and city."""
@@ -59,16 +63,26 @@ def favorites_results():
     users_fav_city = request.args.get('city')
     return f'Wow, I didn\'t know {users_fav_color} {users_fav_animal} lived in {users_fav_city}!'
 
+
+#PART 1: SECRET MESSAGE
 @app.route('/secret_message')
 def secret_message():
     """Shows the user a form to collect a secret message. Sends the result via
     the POST method to keep it a secret!"""
-    pass
+    return """
+    <form action="/message_results" method="POST">
+        Input a message you want to make Secret! <br/>
+        <input type="text" name="message"><br/>
+        <input type="submit" value="Submit!">
+    </form>
+    """
 
 @app.route('/message_results', methods=['POST'])
 def message_results():
     """Shows the user their message, with the letters in sorted order."""
-    pass
+    users_message = request.form.get('message')
+    secret_message = sort_letters(users_message)
+    return f'Here\'s your secret message!{secret_message}'
 
 @app.route('/calculator')
 def calculator():
